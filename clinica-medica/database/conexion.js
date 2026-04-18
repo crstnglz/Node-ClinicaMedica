@@ -32,7 +32,6 @@ process.on('SIGINT', async() => {
     try {
         await db.close();
         console.log('✅ Conexiones cerradas correctamente');
-        process.removeListener(0);
     }catch (err){
         console.error('❌ Error cerrando conexiones:', err);
         process.exit(1);
