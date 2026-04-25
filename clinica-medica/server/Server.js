@@ -3,12 +3,15 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
 
+import authRoutes from '../routes/authRoutes.js';
+
 class Server
 {
     constructor()
     {
         this.app = express();
         this.port = process.env.PORT;
+        this.authPath = '/api/auth';
 
         this.middlewares();
         this.rutas();
@@ -22,7 +25,7 @@ class Server
 
     rutas() 
     {
-
+        this.app.use(this.authPath, authRoutes);
     }
 
     listen() 

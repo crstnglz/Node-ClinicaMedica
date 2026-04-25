@@ -32,10 +32,6 @@ Usuario.init(
         },
         especialidad: {
             type: DataTypes.STRING
-        },
-        activo: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
         }
     },
     {

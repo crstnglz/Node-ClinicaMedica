@@ -32,10 +32,6 @@ Paciente.init(
         email: {
             type: DataTypes.STRING
         },
-        activo: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
-        }
     },
     {
         sequelize: db,
