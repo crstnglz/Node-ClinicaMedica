@@ -1,5 +1,5 @@
 const esAdmin = (req, res, next) => {
-    if(req.usuarioRol !== 'medico')
+    if(req.usuarioRol !== 'admin')
     {
         return res.status(403).json({ msg: 'Acceso denegado. Se requiere rol admin.' });
     }
