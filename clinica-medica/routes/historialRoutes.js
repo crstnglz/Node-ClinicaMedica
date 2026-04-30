@@ -13,7 +13,7 @@ router.post('/:id_paciente', [
     validarJWT,
     esMedicoOAdmin,
     check('observaciones', 'Las observaciones son obligatorias').notEmpty(),
-    check('diagnostica', 'El diagnóstico es obligatorio').notEmpty(),
+    check('diagnostico', 'El diagnóstico es obligatorio').notEmpty(),
     validarCampos 
 ], agregarEntrada);
 

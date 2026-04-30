@@ -20,7 +20,7 @@ const getPaciente = async(req, res) => {
         {
             return res.status(404).json({ msg: 'Paciente no encontrado.' });
         }
-        res.status(200).json(pacinete);
+        res.status(200).json(paciente);
      }catch(err)
      {
         res.status(500).json({ msg: 'Error en el servidor.', error: err.message });
@@ -28,7 +28,7 @@ const getPaciente = async(req, res) => {
 }
 
 const crearPaciente = async(req, res) => {
-    const { nombre, apellido, dni, fecha_nacimiento, telefono, email } = req.body;
+    const { nombre, apellidos, dni, fecha_nacimiento, telefono, email } = req.body;
     try 
     {
         const pacienteExiste = await Paciente.findOne({ where: { dni, } });
@@ -46,7 +46,7 @@ const crearPaciente = async(req, res) => {
 
 const actualizarPaciente = async(req, res) => {
     const { id } = req.params; 
-    const { nombre, apellidos, telefno, email } = req.body; 
+    const { nombre, apellidos, telefono, email } = req.body; 
     try 
     {
         const paciente = await Paciente.findByPk(id); 

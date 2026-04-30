@@ -5,7 +5,12 @@ import { createServer } from 'http';
 import { Server as SocketServer } from 'socket.io';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 import authRoutes from '../routes/authRoutes.js';
 import usuarioRoutes from '../routes/usuarioRoutes.js';
@@ -43,6 +48,7 @@ class Server
     {
         this.app.use(cors());
         this.app.use(express.json());
+        this.app.use(express.static(join(__dirname, '../cliente')));
     }
 
     rutas() 
@@ -73,7 +79,7 @@ class Server
             expressMiddleware(apolloServer)
         );
 
-        console.log(`GraphQL disponible en htt://localhost:${this.port}${this.graphQLPath}`);
+        console.log(`GraphQL disponible en http://localhost:${this.port}${this.graphQLPath}`);
     }
 
     listen() 
