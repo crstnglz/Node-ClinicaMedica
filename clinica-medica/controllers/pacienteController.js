@@ -79,4 +79,37 @@ const eliminarPaciente = async(req, res) => {
     }
 }
 
-export { getPacientes, getPaciente, crearPaciente, actualizarPaciente, eliminarPaciente }
+const generarPacientes = async(req, res) => {
+    const { cantidad } = req.params;
+    const n = parseInt(cantidad);
+
+    if(isNaN(n) || n < 1 || n > 100)
+    {
+        return res.status(400).json({ msg: 'La cantidad debe ser un número entre 1 y 100.' });
+    }
+
+    try 
+    {
+        const { fakerES: faker } = await import('@faker-js/faker');
+        const pacientes = [];
+
+        for(let i = 0; i < n; i++)
+        {
+            pacientes.push({
+                nombre: faker.person.firstName(),
+                apellidos: faker.person.lastName(),
+                dni: faker.string.alphanumeric(9).toUpperCase(),
+                fecha_nacimiento: faker.date.birthdate({ min: 18, max: 80, mode: 'age' }).toISOString().split('T')[0],
+                telefono: faker.phone.number(),
+                email: faker.internet.email()
+            });
+        }
+        await Paciente.bulkCreate(pacientes, { ignoreDuplicates: true });
+        res.status(201).json({ msg: `${n} pacientes generados correctamente.`, cantidad: n});
+    }catch(err)
+    {
+        res.status(500).json({ msg: 'Error en el servidor.', error: err.message });
+    }
+}
+
+export { getPacientes, getPaciente, crearPaciente, actualizarPaciente, eliminarPaciente, generarPacientes }

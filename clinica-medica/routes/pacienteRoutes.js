@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { getPacientes, getPaciente, crearPaciente, actualizarPaciente, eliminarPaciente } from '../controllers/pacienteController.js';
+import { getPacientes, getPaciente, crearPaciente, actualizarPaciente, eliminarPaciente, generarPacientes } from '../controllers/pacienteController.js';
 import validarJWT from '../middlewares/validarJWT.js';
 import { esAdmin, esRecepcionista } from '../middlewares/validarRoles.js';
 import validarCampos from '../middlewares/validarCampos.js';
@@ -20,5 +20,6 @@ router.post('/', [
 
 router.put('/:id', validarJWT, actualizarPaciente);
 router.delete('/:id', [validarJWT, esAdmin], eliminarPaciente);
+router.post('/generar/:cantidad', [validarJWT, esAdmin], generarPacientes);
 
 export default router;
