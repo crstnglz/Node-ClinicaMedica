@@ -1,0 +1,1 @@
+{"_id":{"$oid":"69f3b0e66e517afc3bb32f40"},"id_paciente":21,"entradas":[{"fecha":{"$date":"2026-04-30T19:43:34.638Z"},"id_medico":21,"observaciones":"muchisimo estres durante todo el curso","diagnostico":"estres cronico","tratamiento":"Año sabático en las Maldivas :)","_id":{"$oid":"69f3b0e66e517afc3bb32f41"}}],"__v":0}
