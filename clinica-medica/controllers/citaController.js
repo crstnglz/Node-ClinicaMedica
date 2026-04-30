@@ -1,4 +1,5 @@
 import { Cita, Paciente, Usuario } from '../models/sql/Asociaciones.js';
+import HistorialClinico from '../models/mongo/HistorialClinico.js';
 import { getIO } from '../sockets/io.js';
 
 const getCitas = async(req, res) => {
@@ -73,6 +74,30 @@ const actualizarEstadoCita = async(req, res) => {
             return res.status(404).json({ msg: 'CIta no encontrada.' });
         }
         await cita.update({ estado });
+
+        if(estado === 'finalizada')
+        {
+            let historial = await HistorialClinico.findOne({ id_paciente: cita.id_paciente });
+
+            if(!historial)
+            {
+                historial = new HistorialClinico({ id_paciente: cita.id_paciente, entradas: [] });
+            }
+            
+            historial.entradas.push({
+                fecha: new Date(),
+                id_medico: cita.id_medico,
+                observaciones: `Cita finalizada. Motivo: ${cita.motivo || 'Sin motivo especificado'}`,
+                diagnostico: 'Pendiente de completar',
+                tratamiento: 'Pendiente de completar'
+            });
+
+            await historial.save();
+        }
+        
+        const io = getIO();
+        if(io) io.emit('cita:estado', cita);
+        
         res.status(200).json(cita);
     }catch(err)
     {
