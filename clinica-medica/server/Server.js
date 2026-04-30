@@ -7,6 +7,7 @@ import authRoutes from '../routes/authRoutes.js';
 import usuarioRoutes from '../routes/usuarioRoutes.js';
 import pacienteRoutes from '../routes/pacienteRoutes.js';
 import citaRoutes from '../routes/citaRoutes.js';
+import historialRoutes from '../routes/historialRoutes.js';
 
 class Server
 {
@@ -19,6 +20,7 @@ class Server
         this.usuariosPath = '/api/usuarios';
         this.pacientesPath = '/api/pacientes';
         this.citasPath = '/api/citas';
+        this.historialPath = '/api/historial';
 
         this.middlewares();
         this.rutas();
@@ -36,6 +38,7 @@ class Server
         this.app.use(this.usuariosPath, usuarioRoutes);
         this.app.use(this.pacientesPath, pacienteRoutes);
         this.app.use(this.citasPath, citaRoutes);
+        this.app.use(this.historialPath, historialRoutes);
     }
 
     listen() 
