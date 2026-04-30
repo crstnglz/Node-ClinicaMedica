@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server as SocketServer } from 'socket.io';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
 dotenv.config();
 
 import authRoutes from '../routes/authRoutes.js';
@@ -11,6 +13,8 @@ import pacienteRoutes from '../routes/pacienteRoutes.js';
 import citaRoutes from '../routes/citaRoutes.js';
 import historialRoutes from '../routes/historialRoutes.js';
 import socketHandler from '../sockets/socketHandler.js';
+import typeDefs from '../graphql/typeDefs.js';
+import resolvers from '../graphql/resolvers.js';
 
 class Server
 {
@@ -28,6 +32,7 @@ class Server
         this.pacientesPath = '/api/pacientes';
         this.citasPath = '/api/citas';
         this.historialPath = '/api/historial';
+        this.graphQLPath = '/graphql';
 
         this.middlewares();
         this.rutas();
@@ -53,9 +58,27 @@ class Server
         socketHandler(this.io);
     }
 
+    async initApollo()
+    {
+        const apolloServer = new ApolloServer({
+            typeDefs,
+            resolvers,
+            introspection: true
+        });
+        await apolloServer.start();
+        this.app.use(
+            this.graphQLPath,
+            cors(),
+            express.json(),
+            expressMiddleware(apolloServer)
+        );
+
+        console.log(`GraphQL disponible en htt://localhost:${this.port}${this.graphQLPath}`);
+    }
+
     listen() 
     {
-        this.app.listen(this.port, () => {
+        this.httpServer.listen(this.port, () => {
             console.log(`🌍 Servidor corriendo en el puerto ${this.port}`);
         });
     }

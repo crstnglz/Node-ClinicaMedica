@@ -9,4 +9,6 @@ import { Server } from '../server/server.js';
 conectarMongoDB();
 
 const server = new Server();
+await server.initApollo();
+server.rutas();
 server.listen();
