@@ -1,4 +1,5 @@
 import { Cita, Paciente, Usuario } from '../models/sql/Asociaciones.js';
+import { getIO } from '../sockets/io.js';
 
 const getCitas = async(req, res) => {
     try 
@@ -42,6 +43,9 @@ const crearCita = async(req, res) => {
     try 
     {
         const cita = await Cita.create({ id_paciente, id_medico, fecha, hora, duracion_min, motivo });
+        
+        const io = getIO();
+        if(io) io.emit('cita:nueva', cita);
         res.status(201).json(cita); 
     }catch(err)
     {
@@ -57,6 +61,8 @@ const actualizarEstadoCita = async(req, res) => {
         const cita = await Cita.findByPk(id);
         if(!cita)
         {
+            const io = getIO();
+            if(io) io.emit('cita:estado', cita);
             return res.status(404).json({ msg: 'CIta no encontrada.' });
         }
         await cita.update({ estado });
@@ -74,6 +80,8 @@ const cancelarCita = async(req, res) => {
         const cita = await Cita.findByPk(id);
         if(!cita)
         {
+            const io = getIO();
+            if(io) io.emit('cita: cancelada', cita);
             return res.status(404).json({ msg: 'Cita no encontrada.' });
         }
         await cita.update({ estado: 'cancelada' });
@@ -91,6 +99,8 @@ const eliminarCita = async(req ,res) => {
         const cita = await Cita.findByPk(id);
         if(!cita)
         {
+            const io = getIO();
+            if(io) io.emit('cita:estado', cita);
             return res.status(404).json({ msg: 'Cita no encontrada.' });
         }
         await cita.destroy();

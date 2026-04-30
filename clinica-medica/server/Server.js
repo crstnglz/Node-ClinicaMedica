@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { createServer } from 'http';
+import { Server as SocketServer } from 'socket.io';
 dotenv.config();
 
 import authRoutes from '../routes/authRoutes.js';
@@ -8,6 +10,7 @@ import usuarioRoutes from '../routes/usuarioRoutes.js';
 import pacienteRoutes from '../routes/pacienteRoutes.js';
 import citaRoutes from '../routes/citaRoutes.js';
 import historialRoutes from '../routes/historialRoutes.js';
+import socketHandler from '../sockets/socketHandler.js';
 
 class Server
 {
@@ -15,6 +18,10 @@ class Server
     {
         this.app = express();
         this.port = process.env.PORT;
+        this.httpServer = createServer(this.app);
+        this.io = new SocketServer(this.httpServer, {
+            cors: { origin: '*' }
+        });
 
         this.authPath = '/api/auth';
         this.usuariosPath = '/api/usuarios';
@@ -24,6 +31,7 @@ class Server
 
         this.middlewares();
         this.rutas();
+        this.sockets();
     }
 
     middlewares()
@@ -39,6 +47,10 @@ class Server
         this.app.use(this.pacientesPath, pacienteRoutes);
         this.app.use(this.citasPath, citaRoutes);
         this.app.use(this.historialPath, historialRoutes);
+    }
+    sockets()
+    {
+        socketHandler(this.io);
     }
 
     listen() 
