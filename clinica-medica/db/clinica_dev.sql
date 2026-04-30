@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict Bk3UpwofLPgguTWadZ6h7FfACNdujzBUSrrswucnT3MX3DBcu2ogTuSh1JK5E47
+\restrict 5vJuBvHMnCysf6GdwAfGRpIBHAZv2FjGRl8BW19fBQh9L7kDZDUyOBhzhjvr78R
 
 -- Dumped from database version 16.10
 -- Dumped by pg_dump version 16.11 (Homebrew)
@@ -217,10 +217,10 @@ COPY public."SequelizeMeta" (name) FROM stdin;
 COPY public.citas (id, id_paciente, id_medico, fecha, hora, duracion_min, estado, motivo) FROM stdin;
 3	3	2	2026-04-30	11:00:00	30	finalizada	Control tensión
 4	4	2	2026-04-30	12:00:00	60	cancelada	Revisión analítica
-5	1	1	2026-05-08	22:31:00	30	pendiente	me duele la cabeza
-1	1	1	2026-04-30	09:00:00	30	cancelada	Revisión general
 6	12	2	2026-05-05	01:43:00	30	cancelada	no lo se
 2	2	1	2026-04-30	10:00:00	45	finalizada	Consulta dolor de cabeza
+5	1	1	2026-05-08	22:31:00	30	finalizada	me duele la cabeza
+1	1	1	2026-04-30	09:00:00	30	finalizada	Revisión general
 \.
 
 
@@ -377,5 +377,5 @@ ALTER TABLE ONLY public.citas
 -- PostgreSQL database dump complete
 --
 
-\unrestrict Bk3UpwofLPgguTWadZ6h7FfACNdujzBUSrrswucnT3MX3DBcu2ogTuSh1JK5E47
+\unrestrict 5vJuBvHMnCysf6GdwAfGRpIBHAZv2FjGRl8BW19fBQh9L7kDZDUyOBhzhjvr78R
 
