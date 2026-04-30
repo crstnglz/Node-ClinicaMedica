@@ -2,9 +2,16 @@ import { Cita, Paciente, Usuario } from '../models/sql/Asociaciones.js';
 import { getIO } from '../sockets/io.js';
 
 const getCitas = async(req, res) => {
-    try 
-    {
+    try {
+        const where = {}
+
+        if(req.usuarioRol === 'medico')
+        {
+            where.id_medico = req.usuarioId;
+        }
+        
         const citas = await Cita.findAll({
+            where,
             include: [
                 { model: Paciente, as: 'paciente' },
                 { model: Usuario, as: 'medico' }
