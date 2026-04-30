@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.ENUM('admin', 'medico', 'recepcionista'),
       },
       especialidad: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING,
       }
     });
   },
